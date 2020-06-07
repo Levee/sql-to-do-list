@@ -8,6 +8,7 @@ list.get('/', (req, res) => {
   pool
     .query(query)
     .then((out) => {
+      console.log('Select query successful!');
       res.send(out.rows);
     })
     .catch((err) => {
@@ -27,7 +28,7 @@ list.post('/', (req, res) => {
       task.priority
     ])
     .then((out) => {
-      console.log('Query successful!');
+      console.log('Insert query successful!');
       res.sendStatus(201);
     })
     .catch((err) => {
@@ -35,5 +36,20 @@ list.post('/', (req, res) => {
       res.sendStatus(500);
     });
 });
+
+list.delete('/:id', (req, res) => {
+  const task = req.params.id;
+  const query = `DELETE FROM tdlist WHERE id=$1`;
+  pool
+    .query(query, [task])
+    .then((out) => {
+      console.log('Delete request succuessful!');
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.log(`Error making query ${query}`, err);
+      res.sendStatus(500);
+    });
+})
 
 module.exports = list;
