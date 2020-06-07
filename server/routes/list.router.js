@@ -38,10 +38,10 @@ list.post('/', (req, res) => {
 });
 
 list.delete('/:id', (req, res) => {
-  const task = req.params.id;
+  const taskId = req.params.id;
   const query = `DELETE FROM tdlist WHERE id=$1`;
   pool
-    .query(query, [task])
+    .query(query, [taskId])
     .then((out) => {
       console.log('Delete request succuessful!');
       res.sendStatus(200);
@@ -50,6 +50,39 @@ list.delete('/:id', (req, res) => {
       console.log(`Error making query ${query}`, err);
       res.sendStatus(500);
     });
+});
+
+list.put('/:id', (req, res) => {
+  const taskId = req.params.id;
+  // const taskStatus = req.params.status;
+  // let toStatus;
+  // switch(Boolean(taskStatus)){
+  //   case true:
+  //     toStatus = 'false';
+  //     break;
+  //   case false:
+  //     toStatus = 'true';
+  //     break;
+  //   default:
+  //     console.log('Error changing status.');
+  // }
+  const query = `
+    update tdlist
+    set status=case
+      when status=false then true
+      when status=true then false
+      else status
+    end where id=$1;`;
+  pool
+    .query(query, [taskId])
+    .then((out) => {
+      console.log('PUT request successful!');
+      res.sendStatus(201);
+    })
+    .catch((err) => {
+      console.log(`Error making query ${query}`, err);
+      res.sendStatus(500);
+    })
 })
 
 module.exports = list;

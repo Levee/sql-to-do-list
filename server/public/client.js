@@ -8,7 +8,7 @@ function ready(){
 
 function eventHandler(){
   $('#taskPost').on('click', postList);
-  $('#list').on('click', '.close', deleteList);
+  $('#list').on('click','.close', deleteList);
 }
 
 function getList(){
