@@ -4,7 +4,7 @@ const pool = require('../modules/pool.js');
 
 // get request to db
 list.get('/', (req, res) => {
-  const query = `SELECT * FROM tdlist ORDER BY`;
+  const query = `SELECT * FROM tdlist ORDER BY status, priority`;
   pool
     .query(query)
     .then((out) => {
@@ -19,28 +19,12 @@ list.get('/', (req, res) => {
 // post request to db
 list.post('/', (req, res) => {
   const task = req.body;
-  let priority = null;
-  switch(task.priority){
-    case 'Urgent':
-      priority = 1;
-      break;
-    case 'High':
-      priority = 2;
-      break;
-    case 'Normal':
-      priority = 3;
-      break;
-    case 'Low':
-      priority = 4;
-      break;
-    default:
-      console.log('Error! No priority by that name.');
-  }
-  const query = `INSERT INTO tdlist (name, detail, priority) VALUES ($1, $2, ${priority})`;
+  const query = `INSERT INTO tdlist (name, detail, priority) VALUES ($1, $2, $3)`;
   pool
     .query(query, [
       task.name,
       task.detail,
+      task.priority
     ])
     .then((out) => {
       console.log('Query successful!');

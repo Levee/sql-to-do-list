@@ -15,21 +15,21 @@
   <div class="container-fluid p-4">
     <h1>TO-DO List</h1>
     <div class="row">
-      <div class="col-3 m-3 p-3 border border-primary rounded">
+      <div class="col-10 mx-auto my-3 p-3 border border-primary rounded alert-primary">
         <div class="row">
           <div class="input-group m-3">
             <div class="input-group-prepend">
               <span class="input-group-text" id="basic-addon1">Task</span>
             </div>
-            <input type="text" class="form-control" placeholder="New task name">
+            <input id="taskName" type="text" class="form-control" placeholder="New task name">
           </div>
         </div>
         <div class="row">
           <div class="input-group m-3">
             <div class="input-group-prepend">
-              <span class="input-group-text align-text-top">Details</span>
+              <span class="input-group-text">Details</span>
             </div>
-            <textarea class="form-control" placeholder="Describe your task"></textarea>
+            <textarea id="taskDetail" class="form-control" placeholder="Describe your task"></textarea>
           </div>
         </div>
         <div class="row">
@@ -37,32 +37,23 @@
             <div class="input-group-prepend">
               <label class="input-group-text" for="inputGroupSelect01">Priority</label>
             </div>
-            <select class="custom-select" id="inputGroupSelect04">
-              <option selected>Choose...</option>
+            <select id="taskPriority" class="custom-select" id="inputGroupSelect04">
               <option value="1">Urgent</option>
               <option value="2">High</option>
-              <option value="3">Normal</option>
+              <option selected value="3">Normal</option>
               <option value="4">Low</option>
             </select>
             <div class="input-group-append">
-              <button class="btn btn-outline-primary" type="button">Submit Task</button>
+              <button id="taskPost" class="btn btn-outline-primary" type="button">Submit Task</button>
             </div>
           </div>
         </div>
       </div>
-      <div class="col m-3 p-3 border border-dark rounded">
-        <div class="card alert alert-success alert-dismissable fade show" role="alert" style="width: 18rem;">
-          <div class="card-body">
-            <button type="button" class="close" data-dismiss="alert">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <h5 class="card-title">Card title</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.
-            </p>
-            <a href="#" class="card-link">Edit Task</a>
-            <a href="#" class="card-link">Complete Task</a>
-          </div>
+    </div>
+    <div class="row">
+      <div class="col-10 mx-auto my-3 p-3 border border-dark rounded">
+        <div id="list" class="row">
+    
         </div>
       </div>
     </div>
