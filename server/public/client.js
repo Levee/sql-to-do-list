@@ -8,18 +8,19 @@ function ready(){
 
 function eventHandler(){
   $('#taskPost').on('click', postList);
+  $('#list').on('click', '.close', deleteList);
 }
 
 function getList(){
+  $('#list').empty();
   $.ajax({
     method: 'GET',
     url: '/list',
     }).then((res) => {
       console.log('List successfully retrieved!');
-      const list = res;
       let priority = '';
       let color = '';
-      for(let task of list){
+      for(let task of res){
         switch (task.priority) {
           case 1:
             priority = 'Urgent';
@@ -47,7 +48,7 @@ function getList(){
           <div class="card col-4-auto mx-auto alert alert-${color} alert-dismissable fade show"
             role="alert"style="width: 18rem;">
             <div class="card-body p-0">
-              <button type="button" class="close" data-dismiss="alert">
+              <button data-id="${task.id}" type="button" class="close" data-dismiss="alert">
                 <span>&times;</span>
               </button>
               <h5 class="card-title text-muted">${task.name}</h5>
@@ -87,7 +88,20 @@ function postList(){
       $('#taskName').val('');
       $('#taskDetail').val('');
       $('#taskPriority').val('3');
-      $('#list').empty();
+      getList();
+    }).catch((res) => {
+      alert('Request failed. Try again later.');
+    }
+  );
+}
+
+function deleteList(event){
+  const id = $(event.target).closest('.close').data().id;
+  $.ajax({
+    method: 'DELETE',
+    url: `/list/${id}`,
+    }).then((res) => {
+      console.log('Successfully deleted task!', res);
       getList();
     }).catch((res) => {
       alert('Request failed. Try again later.');
