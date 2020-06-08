@@ -59,7 +59,8 @@ function getList(){
               </button>
               <h5 class="card-title text-muted">${task.name}</h5>
               <h6 class="card-subtitle mb-2">
-                <svg class="bi bi-check-square-fill align-text-bottom" width="1em" height="1em" viewBox="0 0 16 16" fill="${check}" xmlns="http://www.w3.org/2000/svg">
+                <svg class="bi bi-check-square-fill align-text-bottom" width="1em" height="1em" viewBox="0 0 16 16"
+                  fill="${check}" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm10.03 4.97a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
                 </svg>
                 <span class="align-baseline">${priority}</span>
@@ -68,11 +69,11 @@ function getList(){
             </div>
             <div class="card-footer alert-${color} border-top-0 px-0 py-2">
               <div class="btn-group float-right" role="group">
-                <button data-id="${task.id}" type="button" class="btn btn-outline-primary edit"
+                <button data-id="${task.id}" type="button" class="btn btn-outline-primary btn-sm edit"
                   style="border-top-left-radius: 10px; border-bottom-left-radius: 10px;">Edit</button>
-                <button data-id="${task.id}" type="button" class="btn btn-outline-success save"
+                <button data-id="${task.id}" type="button" class="btn btn-outline-success btn-sm save"
                   style="display: none;">Save</button>
-                <button data-id="${task.id}" type="button" class="btn btn-outline-success complete"
+                <button data-id="${task.id}" type="button" class="btn btn-outline-success btn-sm complete"
                   style="border-top-right-radius: 10px; border-bottom-right-radius: 10px;">Complete</button>
               </div>
             </div>

@@ -20,20 +20,21 @@
         <div class="modal-content" style="border-radius: 25px;">
           <div class="modal-header alert-danger pb-2"
             style="border-top-left-radius: 25px; border-top-right-radius: 25px;">
-            <h5 class="modal-title">
-              <svg class="bi bi-exclamation-circle" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor"
+            <span class="modal-title font-weight-light" style="font-size: 1.75rem;">
+              <svg class="bi bi-exclamation-circle align-baseline" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
                 <path
                   d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z" />
               </svg>
-            </h5>
+              <span class="ml-2 align-text-bottom">Error</span>
+            </span>
             <button type="button" class="close pb-0" data-dismiss="modal">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <h5 class="float-left font-weight-light" contenteditable="true">Error! Empty inputs cannot be submitted.</h5>
+            <h5 class="float-left font-weight-light" contenteditable="true">Inputs cannot be empty.</h5>
             <button type="button" class="btn btn-primary float-right" data-dismiss="modal"
               style="border-radius: 10px;">Okay</button>
           </div>
