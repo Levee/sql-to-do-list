@@ -8,5 +8,7 @@ create table "tdlist" (
 		default '2',
 	status boolean not null
 		default false,
-	time_done time default null
+	time_done time default null,
+	deleted boolean not null
+		default false
 );

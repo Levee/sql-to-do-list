@@ -4,7 +4,7 @@ const pool = require('../modules/pool.js');
 
 // get request to db
 list.get('/', (req, res) => {
-  const query = `SELECT * FROM tdlist ORDER BY status, priority`;
+  const query = `SELECT * FROM tdlist WHERE deleted<>true ORDER BY status, priority, name, detail;`;
   pool
     .query(query)
     .then((out) => {
@@ -20,7 +20,7 @@ list.get('/', (req, res) => {
 // post request to db
 list.post('/', (req, res) => {
   const task = req.body;
-  const query = `INSERT INTO tdlist (name, detail, priority) VALUES ($1, $2, $3)`;
+  const query = `INSERT INTO tdlist (name, detail, priority) VALUES ($1, $2, $3);`;
   pool
     .query(query, [
       task.name,
@@ -39,7 +39,7 @@ list.post('/', (req, res) => {
 
 list.delete('/:id', (req, res) => {
   const taskId = req.params.id;
-  const query = `DELETE FROM tdlist WHERE id=$1`;
+  const query = `UPDATE tdlist SET deleted=true WHERE id=$1;`;
   pool
     .query(query, [taskId])
     .then((out) => {
@@ -54,23 +54,40 @@ list.delete('/:id', (req, res) => {
 
 list.put('/:id', (req, res) => {
   const taskId = req.params.id;
-  const query = `
+  const taskDetail = req.body.detail;
+  let query = `
     update tdlist
     set status=case
       when status=false then true
       when status=true then false
       else status
     end where id=$1;`;
-  pool
-    .query(query, [taskId])
-    .then((out) => {
-      console.log('PUT request successful!');
-      res.sendStatus(201);
-    })
-    .catch((err) => {
-      console.log(`Error making query ${query}`, err);
-      res.sendStatus(500);
-    })
+  if(taskDetail !== undefined){
+    query = `
+    update tdlist
+      set detail=$2 where id=$1;`;
+    pool
+      .query(query, [taskId, taskDetail])
+      .then((out) => {
+        console.log('PUT request successful!');
+        res.sendStatus(201);
+      })
+      .catch((err) => {
+        console.log(`Error making query ${query}`, err);
+        res.sendStatus(500);
+      })
+  } else {
+    pool
+      .query(query, [taskId])
+      .then((out) => {
+        console.log('PUT request successful!');
+        res.sendStatus(201);
+      })
+      .catch((err) => {
+        console.log(`Error making query ${query}`, err);
+        res.sendStatus(500);
+      })
+  }
 });
 
 

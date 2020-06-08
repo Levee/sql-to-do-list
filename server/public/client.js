@@ -10,6 +10,8 @@ function eventHandler(){
   $('#taskPost').on('click', postList);
   $('#list').on('click','.close', deleteList);
   $('#list').on('click', '.complete', putList);
+  $('#list').on('click', '.edit', editTask);
+  $('#list').on('click', '.save', saveTask);
 }
 
 function getList(){
@@ -17,38 +19,38 @@ function getList(){
   $.ajax({
     method: 'GET',
     url: '/list',
-    }).then((res) => {
-      console.log('List successfully retrieved!');
-      let priority = '';
-      let color = '';
-      let check = 'grey';
-      for(let task of res){
-        switch (task.priority) {
-          case 1:
-            priority = 'Urgent';
-            color = 'danger';
-            break;
-          case 2:
-            priority = 'High';
-            color = 'warning';
-            break;
-          case 3:
-            priority = 'Normal';
-            color = 'success'
-            break;
-          case 4:
-            priority = 'Low';
-            color = 'info';
-            break;
-          default:
-            console.log('Error! A problem occurred calculating the priority.');
-        }
-        if(task.status === true){
-          color = 'dark';
-          check = 'green';
-        }
-        $('#list').append(`
-          <div class="col-xs-12 col-sm-6 col-lg-4 col-xl-3 my-3">
+  }).then((res) => {
+    console.log('List successfully retrieved!');
+    let priority = '';
+    let color = '';
+    let check = 'grey';
+    for(let task of res){
+      switch (task.priority) {
+        case 1:
+          priority = 'Urgent';
+          color = 'danger';
+          break;
+        case 2:
+          priority = 'High';
+          color = 'warning';
+          break;
+        case 3:
+          priority = 'Normal';
+          color = 'success'
+          break;
+        case 4:
+          priority = 'Low';
+          color = 'info';
+          break;
+        default:
+          console.log('Error! A problem occurred calculating the priority.');
+      }
+      if(task.status === true){
+        color = 'dark';
+        check = 'green';
+      }
+      $('#list').append(`
+        <div class="col-xs-12 col-sm-6 col-lg-4 col-xl-3 my-3">
           <div class="card h-100 alert alert-${color} alert-dismissable fade show" role="alert"
             style="border-radius: 20px; box-shadow: 0px 7px 10px -3px rgba(0,0,0,0.75);">
             <div class="card-body p-0">
@@ -62,26 +64,25 @@ function getList(){
                 </svg>
                 <span class="align-baseline">${priority}</span>
               </h6>
-              <p class="card-text text-muted">${task.detail}</p>
+              <p class="card-text text-muted editable">${task.detail}</p>
             </div>
             <div class="card-footer alert-${color} border-top-0 px-0 py-2">
               <div class="btn-group float-right" role="group">
-                <button data-id="${task.id}" type="button"
-                  class="btn btn-outline-primary"
+                <button data-id="${task.id}" type="button" class="btn btn-outline-primary edit"
                   style="border-top-left-radius: 10px; border-bottom-left-radius: 10px;">Edit</button>
-                <button data-id="${task.id}" type="button"
-                  class="btn btn-outline-success complete"
+                <button data-id="${task.id}" type="button" class="btn btn-outline-success save"
+                  style="display: none;">Save</button>
+                <button data-id="${task.id}" type="button" class="btn btn-outline-success complete"
                   style="border-top-right-radius: 10px; border-bottom-right-radius: 10px;">Complete</button>
               </div>
             </div>
           </div>
-          </div>
-        `);
-      }
-    }).catch((res) => {
-      alert('Request failed. Try again later.');
+        </div>
+      `);
     }
-  );
+  }).catch((res) => {
+    alert('Request failed. Try again later.');
+  });
 }
 
 function postList(){
@@ -101,30 +102,28 @@ function postList(){
     method: 'POST',
     url: '/list',
     data: taskObj,
-    }).then((res) => {
-      console.log('Success!', res);
-      $('#taskName').val('');
-      $('#taskDetail').val('');
-      $('#taskPriority').val('3');
-      getList();
-    }).catch((res) => {
-      alert('Request failed. Try again later.');
-    }
-  );
+  }).then((res) => {
+    console.log('Success!', res);
+    $('#taskName').val('');
+    $('#taskDetail').val('');
+    $('#taskPriority').val('3');
+    getList();
+  }).catch((res) => {
+    alert('Request failed. Try again later.');
+  });
 }
 
 function deleteList(event){
   const id = $(event.target).closest('.close').data().id;
   $.ajax({
-    method: 'DELETE',
-    url: `/list/${id}`,
-    }).then((res) => {
-      console.log('Successfully deleted task!', res);
-      getList();
-    }).catch((res) => {
-      alert('Request failed. Try again later.');
-    }
-  );
+  method: 'DELETE',
+  url: `/list/${id}`,
+  }).then((res) => {
+    console.log('Successfully deleted task!', res);
+    getList();
+  }).catch((res) => {
+    alert('Request failed. Try again later.');
+  });
 }
 
 function putList(event){
@@ -137,6 +136,36 @@ function putList(event){
       getList();
     }).catch((res) => {
       alert('Request failed. Try again later.');
-    }
-  );
+    });
+}
+
+function editTask(event){
+  const makeEditable = $(event.target).parent().parent().prev().find('p.editable');
+  $(event.target).attr('id', 'edit-active');
+  $('.edit').prop('disabled', true);
+  $('.complete').prop('disabled', true);
+  makeEditable.prop('contenteditable', true).focus();
+  $(event.target).siblings('.save').slideDown();
+}
+
+function saveTask(event){
+  const makeEditable = $(event.target).parent().parent().prev().find('p.editable');
+  $('.edit').removeAttr('id');
+  $('.edit').prop('disabled', false);
+  $('.complete').prop('disabled', false);
+  makeEditable.prop('contenteditable', false);
+  $(event.target).slideUp();
+  const id = $(event.target).data().id;
+  const detail = $(event.target).parent().parent().siblings('.card-body').find('p.editable').text();
+  $.ajax({
+    method: 'PUT',
+    url: `/list/${id}`,
+    data: {
+      detail: `${detail}`
+    },
+  }).then((res) => {
+    console.log('Success!', res);
+  }).catch((res) => {
+    alert('Request failed. Try again later.');
+  });
 }
