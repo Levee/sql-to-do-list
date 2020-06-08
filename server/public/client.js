@@ -9,6 +9,7 @@ function ready(){
 function eventHandler(){
   $('#taskPost').on('click', postList);
   $('#list').on('click','.close', deleteList);
+  $('#list').on('click', '.complete', putList);
 }
 
 function getList(){
@@ -52,13 +53,13 @@ function getList(){
                 <span>&times;</span>
               </button>
               <h5 class="card-title text-muted">${task.name}</h5>
-              <h6 class="card-subtitle mb-2">${priority}</h6>
+              <h6 class="card-subtitle mb-2 alert-link">${priority}</h6>
               <p class="card-text text-muted">${task.detail}</p>
             </div>
             <div class="card-footer alert-${color} border-top-0 text-center">
               <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-outline-primary">Edit</button>
-                <button type="button" class="btn btn-outline-success">Complete</button>
+                <button data-id="${task.id}" type="button" class="btn btn-outline-primary">Edit</button>
+                <button data-id="${task.id}" type="button" class="btn btn-outline-success complete">Complete</button>
               </div>
             </div>
           </div>
@@ -102,6 +103,20 @@ function deleteList(event){
     url: `/list/${id}`,
     }).then((res) => {
       console.log('Successfully deleted task!', res);
+      getList();
+    }).catch((res) => {
+      alert('Request failed. Try again later.');
+    }
+  );
+}
+
+function putList(event){
+  const id = $(event.target).closest('.complete').data().id;
+  $.ajax({
+    method: 'PUT',
+    url: `/list/${id}`,
+    }).then((res) => {
+      console.log('Successfully updated task!', res);
       getList();
     }).catch((res) => {
       alert('Request failed. Try again later.');

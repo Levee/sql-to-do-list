@@ -54,18 +54,6 @@ list.delete('/:id', (req, res) => {
 
 list.put('/:id', (req, res) => {
   const taskId = req.params.id;
-  // const taskStatus = req.params.status;
-  // let toStatus;
-  // switch(Boolean(taskStatus)){
-  //   case true:
-  //     toStatus = 'false';
-  //     break;
-  //   case false:
-  //     toStatus = 'true';
-  //     break;
-  //   default:
-  //     console.log('Error changing status.');
-  // }
   const query = `
     update tdlist
     set status=case
@@ -83,6 +71,8 @@ list.put('/:id', (req, res) => {
       console.log(`Error making query ${query}`, err);
       res.sendStatus(500);
     })
-})
+});
+
+
 
 module.exports = list;
