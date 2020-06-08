@@ -21,6 +21,7 @@ function getList(){
       console.log('List successfully retrieved!');
       let priority = '';
       let color = '';
+      let check = 'grey';
       for(let task of res){
         switch (task.priority) {
           case 1:
@@ -44,24 +45,36 @@ function getList(){
         }
         if(task.status === true){
           color = 'dark';
+          check = 'green';
         }
         $('#list').append(`
-          <div class="card col-4-auto mx-auto alert alert-${color} alert-dismissable fade show"
-            role="alert"style="width: 18rem;">
+          <div class="col-xs-12 col-sm-6 col-lg-4 col-xl-3 my-3">
+          <div class="card h-100 alert alert-${color} alert-dismissable fade show" role="alert"
+            style="border-radius: 20px; box-shadow: 0px 7px 10px -3px rgba(0,0,0,0.75);">
             <div class="card-body p-0">
               <button data-id="${task.id}" type="button" class="close" data-dismiss="alert">
                 <span>&times;</span>
               </button>
               <h5 class="card-title text-muted">${task.name}</h5>
-              <h6 class="card-subtitle mb-2 alert-link">${priority}</h6>
+              <h6 class="card-subtitle mb-2">
+                <svg class="bi bi-check-square-fill align-text-bottom" width="1em" height="1em" viewBox="0 0 16 16" fill="${check}" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm10.03 4.97a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                </svg>
+                <span class="align-baseline">${priority}</span>
+              </h6>
               <p class="card-text text-muted">${task.detail}</p>
             </div>
-            <div class="card-footer alert-${color} border-top-0 text-center">
-              <div class="btn-group" role="group" aria-label="Basic example">
-                <button data-id="${task.id}" type="button" class="btn btn-outline-primary">Edit</button>
-                <button data-id="${task.id}" type="button" class="btn btn-outline-success complete">Complete</button>
+            <div class="card-footer alert-${color} border-top-0 px-0 py-2">
+              <div class="btn-group float-right" role="group">
+                <button data-id="${task.id}" type="button"
+                  class="btn btn-outline-primary"
+                  style="border-top-left-radius: 10px; border-bottom-left-radius: 10px;">Edit</button>
+                <button data-id="${task.id}" type="button"
+                  class="btn btn-outline-success complete"
+                  style="border-top-right-radius: 10px; border-bottom-right-radius: 10px;">Complete</button>
               </div>
             </div>
+          </div>
           </div>
         `);
       }
@@ -80,6 +93,10 @@ function postList(){
     detail: detail,
     priority: priority
   };
+  if(name === '' || detail === ''){
+    $('#emptyInputs').modal('show');
+    return;
+  }
   $.ajax({
     method: 'POST',
     url: '/list',

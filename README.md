@@ -1,9 +1,7 @@
 # Project Name
 
-[Project Instructions](./INSTRUCTIONS.md), this line may be removed once you have updated the README.md
+SQL TO-DO List
 
 ## Description
 
-Your project description goes here. What problem did you solve? How did you solve it?
-
-Additional README details can be found [here](https://github.com/PrimeAcademy/readme-template/blob/master/README.md).
+This app allows you to create tasks. Each task may have a name, detailed description, and priority. Tasks will automatically be sorted by the highest priority. Uncompleted tasks will be shown before completed ones.

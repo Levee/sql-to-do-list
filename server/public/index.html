@@ -11,31 +11,65 @@
     crossorigin="anonymous"></script>
   <script src="client.js" async defer></script>
 </head>
-<body>
+<body style="background-image: linear-gradient(to left bottom, #ab16a0, #9e2daf, #8d3ebd, #784bca, #5e56d4, #4a6be4, #307ff1, #0091fb, #00b0ff, #00ccff, #00e5fc, #5ffbf1);">
   <div class="container-fluid p-4">
-    <h1>TO-DO List</h1>
+
+    <div class="modal fade" id="emptyInputs" tabindex="-1" role="dialog" aria-labelledby="empty inputs"
+      aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content" style="border-radius: 25px;">
+          <div class="modal-header alert-danger pb-2"
+            style="border-top-left-radius: 25px; border-top-right-radius: 25px;">
+            <h5 class="modal-title">
+              <svg class="bi bi-exclamation-circle" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                <path
+                  d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z" />
+              </svg>
+            </h5>
+            <button type="button" class="close pb-0" data-dismiss="modal">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <h5 class="float-left font-weight-light">Error! Empty inputs cannot be submitted.</h5>
+            <button type="button" class="btn btn-primary float-right" data-dismiss="modal"
+              style="border-radius: 10px;">Okay</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h1 style="color: white;">TO-DO List</h1>
     <div class="row">
-      <div class="col-10 mx-auto my-3 p-3 border border-primary rounded alert-primary">
+      <div class="col-10 mx-auto my-3 p-3 border border-primary alert-primary"
+        style="border-radius: 25px;">
         <div class="row">
-          <div class="input-group m-3">
+          <div class="input-group mx-3">
             <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon1">Task</span>
+              <span class="input-group-text" id="basic-addon1"
+                style="border-top-left-radius: 10px; border-bottom-left-radius: 10px;">Task</span>
             </div>
-            <input id="taskName" type="text" class="form-control" placeholder="New task name">
+            <input id="taskName" type="text" class="form-control" placeholder="New task name"
+              style="border-top-right-radius: 10px; border-bottom-right-radius: 10px;">
           </div>
         </div>
         <div class="row">
-          <div class="input-group m-3">
+          <div class="input-group mx-3 my-3">
             <div class="input-group-prepend">
-              <span class="input-group-text">Details</span>
+              <span class="input-group-text"
+                style="border-top-left-radius: 10px; border-bottom-left-radius: 10px;">Details</span>
             </div>
-            <textarea id="taskDetail" class="form-control" placeholder="Describe your task"></textarea>
+            <textarea id="taskDetail" class="form-control" placeholder="Describe your task"
+              style="border-top-right-radius: 10px; border-bottom-right-radius: 10px;"></textarea>
           </div>
         </div>
         <div class="row">
-          <div class="input-group m-3">
+          <div class="input-group mx-3">
             <div class="input-group-prepend">
-              <label class="input-group-text" for="inputGroupSelect01">Priority</label>
+              <label class="input-group-text" for="inputGroupSelect01"
+                style="border-top-left-radius: 10px; border-bottom-left-radius: 10px;">Priority</label>
             </div>
             <select id="taskPriority" class="custom-select" id="inputGroupSelect04">
               <option value="1">Urgent</option>
@@ -44,21 +78,22 @@
               <option value="4">Low</option>
             </select>
             <div class="input-group-append">
-              <button id="taskPost" class="btn btn-outline-primary" type="button">Submit Task</button>
+              <button id="taskPost" class="btn btn-outline-primary" type="button"
+                style="border-top-right-radius: 10px; border-bottom-right-radius: 10px;">Submit Task</button>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class="row">
-      <div class="col-10 mx-auto my-3 p-3 border border-dark rounded">
+      <div class="col-10 mx-auto my-3 px-3 pt-0 pb-1 border border-dark"
+        style="background-color: white; border-radius: 25px;">
         <div id="list" class="row">
-    
+
         </div>
       </div>
     </div>
   </div>
-
 
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
     integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
